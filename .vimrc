@@ -1,72 +1,119 @@
-set guifont=Menlo\ Regular:h18
-set number
-
-set clipboard=unnamedplus
-
-set tabstop=2
-set shiftwidth=2
-set expandtab
-
-set tw=79
-
-set hlsearch
-
-set smartindent
-set autoindent
-
-"If the current buffer has never been saved, it will have no name,
-"call the file browser to save it, otherwise just save it.
-command -nargs=0 -bar Update if &modified
-            \|if empty(bufname('%'))
-                \|browse confirm write
-            \|else
-                \|confirm write
-            \|endif
-\|endif
-"nnoremap <silent> <C-S> :<C-u>Update<CR>
-"inoremap <silent> <Up> <ESC><Up>
-"inoremap <silent> <Down> <ESC><Down>
-
-"":inoremap <C-S> <Esc>:Update<CR>
-
-"let mapleader=" "
-
+" Vundle
+set nocompatible              " be iMproved, required per Vundle
+filetype off                  " required per Vundle
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'python-mode/python-mode'
-Plugin 'pangloss/vim-javascript'
-" Plugin 'Valloric/YouCompleteMe'
+Plugin 'w0rp/ale'
 Plugin 'scrooloose/nerdtree'
-Plugin 'derekwyatt/vim-scala'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-airline/vim-airline'
 Plugin 'Raimondi/delimitMate'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'tpope/vim-surround'
-Plugin 'neomake/neomake'
 Plugin 'tpope/vim-fugitive'
+Plugin 'pangloss/vim-javascript'
+Plugin 'maxmellon/vim-jsx-pretty'
+Plugin 'Yggdroot/indentLine'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-syntastic/syntastic'
 call vundle#end()
 filetype plugin indent on
 syntax on
 let python_highlight_all=1
 
-highlight Normal ctermbg=none
-highlight NonText ctermbg=none
+" Changing indentline char
+let g:indentLine_char = '|'
+let g:indentLine_color_term = 239
 
-autocmd! BufWritePost * Neomake
 
-let g:neomake_javascript_enabled_makers = ['eslint']
+" super charged 'yank to clipboard'
+nnoremap <C-y> "+y
+vnoremap <C-y> "+y
+nnoremap <C-c> "+y
+vnoremap <C-c> "+y
+" " super charged 'paste from clipboard in insert mode'
+" inoremap <C-v> "+gP
+" " super charged 'paste from clipboard in normal mode'
+" nnoremap <C-v> "+gP
+" " super charged 'paste from clipboard in visual mode'
+" vnoremap <C-v> "+gP
 
-let g:neomake_elixir_credo_maker= {
-      \ 'exe': 'mix',
-      \ 'args': ['credo', 'list', '%:p', '--format=oneline', '--strict'],
-      \ 'postprocess': function('neomake#makers#ft#elixir#PostprocessCredo'),
-      \ 'errorformat':
-          \'[%t] %. %f:%l:%c %m,' .
-          \'[%t] %. %f:%l %m'
-      \ }
-let g:neomake_elixir_enabled_makers = ['credo']
+"Set Mouse?
+set mouse=a
 
+" TABS
+ set tabstop=2
+   " tabs as two spaces
+   set shiftwidth=2
+   set expandtab
+   
+   set smartindent " autoindent
+   set autoindent
+  
+   set tw=79       " page width
+ 
+" Line Numbers
+set number  " Show current line numer
+set relativenumber  " Show relative line numbers
+
+" Highlight search
+set hlsearch    " highlight search
+
+"Organizing swap files to go to ~/.vim/tmp
+set directory^=$HOME/.vim/tmp//
+
+"Ale Config
+let g:ale_elixir_credo_strict=1
+
+let g:ale_fixers = {
+  \ 'javascript': ['eslint', 'trim_whitespace'],
+  \ 'javascript.jsx': ['eslint', 'trim_whitespace'],
+  \ 'jsx': ['eslint', 'trim_whitespace'],
+  \ 'python': ['autopep8', 'trim_whitespace'],
+  \ 'elixir': ['mix_format', 'trim_whitespace'],
+  \ 'exs': ['mix_format', 'trim_whitespace']
+  \}
+
+let g:syntastic_javascript_checkers = ['eslint']
+let g:ale_javascript_eslint_use_global = 1
+
+let g:ale_fix_on_save = 1
+
+" Arrow Esc mapping
 inoremap <silent><Up> <ESC><Up>
 inoremap <silent><Down> <ESC><Down>
+
+" NERDTree show dot files
+let NERDTreeShowHidden=1
+
+" NerdCommenter Settings
+filetype plugin on    " required per nerdcommenter
+" Add spaces after comment delimiters by default
+" let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code
+" indentation
+" let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+" let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a
+" region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+au BufRead,BufNewFile *.exs set filetype=elixir
+au BufRead,BufNewFile *.ex set filetype=elixir
