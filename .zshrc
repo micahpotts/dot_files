@@ -1,20 +1,15 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=/usr/local/lib/elixir/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/micah/.oh-my-zsh
+export ZSH=/home/micah/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="ys"
-# ZSH_THEME="mh"
-
-# zsh
-# alias vim="stty stop '' -ixoff ; vim"
-# `Frozing' tty, so after any command terminal settings will be restored
-# ttyctl -f
-
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -62,8 +57,6 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source $HOME/.aliases
-
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -92,7 +85,22 @@ source $HOME/.aliases
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+source $HOME/.bash_aliases
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+#Slack config
+export SLACK_WEBHOOK_URL=***NOT FOR PUBLIC***
+export SLACK_USERNAME=***NOT FOR PUBLIC***
+
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash
